@@ -37,8 +37,7 @@ jobs:
 
       - name: Inject API Key
         run: |
-          sed -i "s/your-actual-api-key-here/${{ secrets.GEMINI_API_KEY }}/g" config.example.js
-          mv config.example.js config.js
+          sed -i "s/your-actual-api-key-here/${{ secrets.GEMINI_API_KEY }}/g" config.js
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

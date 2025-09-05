@@ -1,7 +1,7 @@
 // Configuration file for the dental app
 const CONFIG = {
     // Replace with your actual Gemini API key from https://makersuite.google.com/app/apikey
-    GEMINI_API_KEY: 'your-actual-api-key-here',
+    GEMINI_API_KEY: 'AIzaSyD9niX_1JKmckV_FM_-JXV1j8yIlWovmIk',
     
     // API endpoints
     GEMINI_API_URL: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',

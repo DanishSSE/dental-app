@@ -1,0 +1,43 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.step {
+    display: none;
+}
+
+.step.active {
+    display: block;
+}
+
+.quadrant-btn.selected {
+    @apply bg-blue-500 text-white border-blue-600;
+}
+
+.quadrant-btn.selected .text-gray-500 {
+    @apply text-blue-100;
+}
+
+.option-btn.selected {
+    @apply bg-blue-500 text-white border-blue-600;
+}
+
+.option-btn.selected .text-gray-500 {
+    @apply text-blue-100;
+}
+
+.timing-check:checked+span {
+    @apply text-blue-600 font-semibold;
+}
+
+.symptom-check:checked+span {
+    @apply text-blue-600 font-semibold;
+}
+
+label:has(.timing-check:checked) {
+    @apply border-blue-600 bg-blue-50;
+}
+
+label:has(.symptom-check:checked) {
+    @apply border-blue-600 bg-blue-50;
+}

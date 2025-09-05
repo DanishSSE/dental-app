@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Dental Diagnosis</title>
+    <link href="./dist/output.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+    <div class="container mx-auto px-4 py-8 max-w-xl">
+        <h1 class="text-2xl font-bold text-center mb-8 text-gray-800">Smart Dental Diagnosis</h1>
+
+        <!-- Progress Bar -->
+        <div class="mb-8">
+            <div class="flex justify-between text-xs text-gray-500 mb-2">
+                <span>Upload</span>
+                <span>Quadrant</span>
+                <span>Tooth</span>
+                <span>Symptoms</span>
+                <span>Results</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+                <div id="progress" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 20%">
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 1: Image Upload -->
+        <div id="step1" class="step active">
+            <h2 class="text-xl font-semibold mb-4">Upload Dental Photo</h2>
+            <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                <input type="file" id="imageInput" accept="image/*" class="hidden">
+                <div id="uploadArea" class="cursor-pointer" onclick="document.getElementById('imageInput').click()">
+                    <div class="text-gray-500 mb-2">📷</div>
+                    <p class="text-gray-600">Tap to upload photo</p>
+                    <p class="text-xs text-gray-400 mt-2">JPEG, PNG (max 5MB)</p>
+                </div>
+                <img id="preview" class="hidden w-full mt-4 rounded-lg">
+            </div>
+            <button id="nextStep1" class="w-full bg-blue-600 text-white py-3 rounded-lg mt-4 disabled:bg-gray-300"
+                disabled>Next</button>
+        </div>
+
+        <!-- Step 2: Quadrant Selection -->
+        <div id="step2" class="step">
+            <h2 class="text-xl font-semibold mb-4">Select Affected Quadrant(s)</h2>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+                <button class="quadrant-btn bg-white border-2 border-gray-300 p-4 rounded-lg text-center"
+                    data-quadrant="4">
+                    <div class="font-semibold">Upper Left</div>
+                    <div class="text-sm text-gray-500">Quadrant 4</div>
+                </button>
+                <button class="quadrant-btn bg-white border-2 border-gray-300 p-4 rounded-lg text-center"
+                    data-quadrant="1">
+                    <div class="font-semibold">Upper Right</div>
+                    <div class="text-sm text-gray-500">Quadrant 1</div>
+                </button>
+                <button class="quadrant-btn bg-white border-2 border-gray-300 p-4 rounded-lg text-center"
+                    data-quadrant="3">
+                    <div class="font-semibold">Lower Left</div>
+                    <div class="text-sm text-gray-500">Quadrant 3</div>
+                </button>
+                <button class="quadrant-btn bg-white border-2 border-gray-300 p-4 rounded-lg text-center"
+                    data-quadrant="2">
+                    <div class="font-semibold">Lower Right</div>
+                    <div class="text-sm text-gray-500">Quadrant 2</div>
+                </button>
+            </div>
+            <div class="flex gap-3 mt-4">
+                <button onclick="showStep(1)" class="flex-1 bg-gray-500 text-white py-3 rounded-lg">Back</button>
+                <button id="nextStep2" class="flex-1 bg-blue-600 text-white py-3 rounded-lg disabled:bg-gray-300"
+                    disabled>Next</button>
+            </div>
+        </div>
+
+        <!-- Step 3: Tooth Type -->
+        <div id="step3" class="step">
+            <h2 class="text-xl font-semibold mb-4">Select Tooth Type</h2>
+            <div class="space-y-3">
+                <button class="option-btn w-full bg-white border-2 border-gray-300 p-4 rounded-lg text-left"
+                    data-tooth="incisor">
+                    <div class="font-semibold">Incisor</div>
+                    <div class="text-sm text-gray-500">Front cutting teeth</div>
+                </button>
+                <button class="option-btn w-full bg-white border-2 border-gray-300 p-4 rounded-lg text-left"
+                    data-tooth="canine">
+                    <div class="font-semibold">Canine</div>
+                    <div class="text-sm text-gray-500">Pointed tearing teeth</div>
+                </button>
+                <button class="option-btn w-full bg-white border-2 border-gray-300 p-4 rounded-lg text-left"
+                    data-tooth="premolar">
+                    <div class="font-semibold">Premolar</div>
+                    <div class="text-sm text-gray-500">Grinding teeth</div>
+                </button>
+                <button class="option-btn w-full bg-white border-2 border-gray-300 p-4 rounded-lg text-left"
+                    data-tooth="molar">
+                    <div class="font-semibold">Molar</div>
+                    <div class="text-sm text-gray-500">Back grinding teeth</div>
+                </button>
+            </div>
+            <div class="flex gap-3 mt-4">
+                <button onclick="showStep(2)" class="flex-1 bg-gray-500 text-white py-3 rounded-lg">Back</button>
+                <button id="nextStep3" class="flex-1 bg-blue-600 text-white py-3 rounded-lg disabled:bg-gray-300"
+                    disabled>Next</button>
+            </div>
+        </div>
+
+        <!-- Step 4: Pain Level -->
+        <div id="step4" class="step">
+            <h2 class="text-xl font-semibold mb-4">How strong is your pain?</h2>
+            <div class="space-y-3">
+                <button class="option-btn w-full bg-white border-2 border-gray-300 p-4 rounded-lg text-center"
+                    data-pain="No Pain">No Pain</button>
+                <button class="option-btn w-full bg-white border-2 border-gray-300 p-4 rounded-lg text-center"
+                    data-pain="Mild">Mild</button>
+                <button class="option-btn w-full bg-white border-2 border-gray-300 p-4 rounded-lg text-center"
+                    data-pain="Moderate">Moderate</button>
+                <button class="option-btn w-full bg-white border-2 border-gray-300 p-4 rounded-lg text-center"
+                    data-pain="Severe">Severe</button>
+            </div>
+            <div class="flex gap-3 mt-4">
+                <button onclick="showStep(3)" class="flex-1 bg-gray-500 text-white py-3 rounded-lg">Back</button>
+                <button id="nextStep4" class="flex-1 bg-blue-600 text-white py-3 rounded-lg disabled:bg-gray-300"
+                    disabled>Next</button>
+            </div>
+        </div>
+
+        <!-- Step 5: Pain Timing -->
+        <div id="step5" class="step">
+            <h2 class="text-xl font-semibold mb-4">When does the pain occur?</h2>
+            <div class="space-y-3">
+                <label
+                    class="flex items-center bg-white border-2 border-gray-300 p-4 rounded-lg cursor-pointer transition-all">
+                    <input type="checkbox" class="timing-check mr-3" value="Constantly">
+                    <span>Constantly</span>
+                </label>
+                <label
+                    class="flex items-center bg-white border-2 border-gray-300 p-4 rounded-lg cursor-pointer transition-all">
+                    <input type="checkbox" class="timing-check mr-3" value="While eating">
+                    <span>While eating</span>
+                </label>
+                <label
+                    class="flex items-center bg-white border-2 border-gray-300 p-4 rounded-lg cursor-pointer transition-all">
+                    <input type="checkbox" class="timing-check mr-3" value="While drinking hot/cold">
+                    <span>While drinking hot/cold</span>
+                </label>
+                <label
+                    class="flex items-center bg-white border-2 border-gray-300 p-4 rounded-lg cursor-pointer transition-all">
+                    <input type="checkbox" class="timing-check mr-3" value="Only when biting/chewing">
+                    <span>Only when biting/chewing</span>
+                </label>
+            </div>
+            <div class="flex gap-3 mt-4">
+                <button onclick="showStep(4)" class="flex-1 bg-gray-500 text-white py-3 rounded-lg">Back</button>
+                <button id="nextStep5" class="flex-1 bg-blue-600 text-white py-3 rounded-lg">Next</button>
+            </div>
+        </div>
+
+        <!-- Step 6: Pain Type -->
+        <div id="step6" class="step">
+            <h2 class="text-xl font-semibold mb-4">What type of pain do you feel?</h2>
+            <div class="space-y-3">
+                <button class="option-btn w-full bg-white border-2 border-gray-300 p-4 rounded-lg text-center"
+                    data-paintype="Sensitivity">Sensitivity</button>
+                <button class="option-btn w-full bg-white border-2 border-gray-300 p-4 rounded-lg text-center"
+                    data-paintype="Throbbing">Throbbing</button>
+                <button class="option-btn w-full bg-white border-2 border-gray-300 p-4 rounded-lg text-center"
+                    data-paintype="Dull ache">Dull ache</button>
+                <button class="option-btn w-full bg-white border-2 border-gray-300 p-4 rounded-lg text-center"
+                    data-paintype="Sharp / Stabbing">Sharp / Stabbing</button>
+            </div>
+            <div class="flex gap-3 mt-4">
+                <button onclick="showStep(5)" class="flex-1 bg-gray-500 text-white py-3 rounded-lg">Back</button>
+                <button id="nextStep6" class="flex-1 bg-blue-600 text-white py-3 rounded-lg disabled:bg-gray-300"
+                    disabled>Next</button>
+            </div>
+        </div>
+
+        <!-- Step 7: Additional Symptoms -->
+        <div id="step7" class="step">
+            <h2 class="text-xl font-semibold mb-4">Do you notice any of these symptoms?</h2>
+            <div class="space-y-3 mb-4">
+                <label
+                    class="flex items-center bg-white border-2 border-gray-300 p-4 rounded-lg cursor-pointer transition-all">
+                    <input type="checkbox" class="symptom-check mr-3" value="Swelling">
+                    <span>Swelling</span>
+                </label>
+                <label
+                    class="flex items-center bg-white border-2 border-gray-300 p-4 rounded-lg cursor-pointer transition-all">
+                    <input type="checkbox" class="symptom-check mr-3" value="Bleeding gums">
+                    <span>Bleeding gums</span>
+                </label>
+                <label
+                    class="flex items-center bg-white border-2 border-gray-300 p-4 rounded-lg cursor-pointer transition-all">
+                    <input type="checkbox" class="symptom-check mr-3" value="Bad breath">
+                    <span>Bad breath</span>
+                </label>
+                <label
+                    class="flex items-center bg-white border-2 border-gray-300 p-4 rounded-lg cursor-pointer transition-all">
+                    <input type="checkbox" class="symptom-check mr-3" value="No other symptoms">
+                    <span>No other symptoms</span>
+                </label>
+            </div>
+            <textarea id="additionalDetails" placeholder="Additional details/symptoms (optional)"
+                class="w-full p-4 border-2 border-gray-300 rounded-lg mb-4" rows="3"></textarea>
+            <div class="flex gap-3 mt-4">
+                <button onclick="showStep(6)" class="flex-1 bg-gray-500 text-white py-3 rounded-lg">Back</button>
+                <button id="analyzeBtn" class="flex-1 bg-green-600 text-white py-3 rounded-lg">Analyze with AI</button>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div id="results" class="step">
+            <div id="loading" class="text-center py-8">
+                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                <p class="text-gray-600">🔍 Analyzing your dental image...</p>
+            </div>
+            <div id="analysisResults" class="hidden space-y-4">
+                <!-- Diagnosis Card -->
+                <div class="bg-gradient-to-r from-blue-50 to-blue-100 p-5 rounded-xl border-l-4 border-blue-500">
+                    <div class="flex items-center mb-3">
+                        <span class="text-2xl mr-2">🦷</span>
+                        <h3 class="font-bold text-lg text-blue-800">Diagnosis</h3>
+                    </div>
+                    <p id="diagnosis" class="text-gray-800 mb-3 leading-relaxed"></p>
+                    <div class="flex gap-4 text-sm">
+                        <div class="bg-white px-3 py-1 rounded-full">
+                            <span class="text-gray-600">Confidence:</span>
+                            <span id="confidence" class="font-semibold text-blue-600"></span>
+                        </div>
+                        <div class="bg-white px-3 py-1 rounded-full">
+                            <span class="text-gray-600">Severity:</span>
+                            <span id="severity" class="font-semibold"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Urgency Alert -->
+                <div id="urgencyAlert" class="hidden p-4 rounded-xl border-l-4">
+                    <div class="flex items-center">
+                        <span id="urgencyIcon" class="text-2xl mr-3"></span>
+                        <div>
+                            <h4 class="font-semibold" id="urgencyTitle"></h4>
+                            <p class="text-sm" id="urgencyText"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommendations -->
+                <div class="bg-green-50 p-5 rounded-xl border-l-4 border-green-500">
+                    <div class="flex items-center mb-3">
+                        <span class="text-2xl mr-2">💡</span>
+                        <h3 class="font-bold text-lg text-green-800">What You Should Do</h3>
+                    </div>
+                    <div id="recommendations" class="space-y-2"></div>
+                </div>
+
+                <!-- Treatment Options -->
+                <div class="bg-purple-50 p-5 rounded-xl border-l-4 border-purple-500">
+                    <div class="flex items-center mb-3">
+                        <span class="text-2xl mr-2">🏥</span>
+                        <h3 class="font-bold text-lg text-purple-800">Treatment Options</h3>
+                    </div>
+                    <div id="treatmentOptions" class="space-y-2"></div>
+                </div>
+
+                <!-- Disclaimer -->
+                <div class="bg-amber-50 border border-amber-200 p-4 rounded-xl">
+                    <div class="flex items-start">
+                        <span class="text-xl mr-2 mt-0.5">⚠️</span>
+                        <div>
+                            <h4 class="font-semibold text-amber-800 mb-1">Important Notice</h4>
+                            <p class="text-sm text-amber-700">This AI analysis is for educational purposes only. Always
+                                consult a qualified dentist for proper diagnosis and treatment.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button id="restartBtn" class="w-full bg-blue-600 text-white py-3 rounded-lg mt-6 hidden font-semibold">🔄
+                Start New Analysis</button>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="gemini-api.js"></script>
+    <script>
+        let currentStep = 1;
+        let formData = {
+            image: null,
+            quadrants: [],
+            tooth: '',
+            pain: '',
+            timing: [],
+            painType: '',
+            symptoms: [],
+            additionalDetails: ''
+        };
+
+        // Image upload handling
+        document.getElementById('imageInput').addEventListener('change', function (e) {
+            const file = e.target.files[0];
+            if (file && file.size <= CONFIG.MAX_IMAGE_SIZE && CONFIG.SUPPORTED_IMAGE_TYPES.includes(file.type)) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    formData.image = e.target.result;
+                    document.getElementById('preview').src = e.target.result;
+                    document.getElementById('preview').classList.remove('hidden');
+                    document.getElementById('uploadArea').classList.add('hidden');
+                    document.getElementById('nextStep1').disabled = false;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('Please select a valid image file (JPEG, PNG) under 5MB');
+            }
+        });
+
+        // Quadrant selection
+        document.querySelectorAll('.quadrant-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const quadrant = this.dataset.quadrant;
+                this.classList.toggle('selected');
+
+                if (formData.quadrants.includes(quadrant)) {
+                    formData.quadrants = formData.quadrants.filter(q => q !== quadrant);
+                } else {
+                    formData.quadrants.push(quadrant);
+                }
+
+                document.getElementById('nextStep2').disabled = formData.quadrants.length === 0;
+            });
+        });
+
+        // Single selection handlers
+        function setupSingleSelection(selector, dataAttr, formKey, nextBtnId) {
+            document.querySelectorAll(selector).forEach(btn => {
+                btn.addEventListener('click', function () {
+                    document.querySelectorAll(selector).forEach(b => b.classList.remove('selected'));
+                    this.classList.add('selected');
+                    formData[formKey] = this.dataset[dataAttr];
+                    document.getElementById(nextBtnId).disabled = false;
+                });
+            });
+        }
+
+        setupSingleSelection('[data-tooth]', 'tooth', 'tooth', 'nextStep3');
+        setupSingleSelection('[data-pain]', 'pain', 'pain', 'nextStep4');
+        setupSingleSelection('[data-paintype]', 'paintype', 'painType', 'nextStep6');
+
+        // Multi-selection handlers
+        document.querySelectorAll('.timing-check').forEach(check => {
+            check.addEventListener('change', function () {
+                if (this.checked) {
+                    formData.timing.push(this.value);
+                } else {
+                    formData.timing = formData.timing.filter(t => t !== this.value);
+                }
+            });
+        });
+
+        document.querySelectorAll('.symptom-check').forEach(check => {
+            check.addEventListener('change', function () {
+                if (this.checked) {
+                    formData.symptoms.push(this.value);
+                } else {
+                    formData.symptoms = formData.symptoms.filter(s => s !== this.value);
+                }
+            });
+        });
+
+        // Navigation
+        function showStep(step) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            const targetStep = step === 8 ? 'results' : `step${step}`;
+            document.getElementById(targetStep).classList.add('active');
+            document.getElementById('progress').style.width = `${Math.min((step / 7) * 100, 100)}%`;
+            currentStep = step;
+        }
+
+        // Next button handlers
+        document.getElementById('nextStep1').addEventListener('click', () => showStep(2));
+        document.getElementById('nextStep2').addEventListener('click', () => showStep(3));
+        document.getElementById('nextStep3').addEventListener('click', () => showStep(4));
+        document.getElementById('nextStep4').addEventListener('click', () => showStep(5));
+        document.getElementById('nextStep5').addEventListener('click', () => showStep(6));
+        document.getElementById('nextStep6').addEventListener('click', () => showStep(7));
+
+        // Analysis
+        document.getElementById('analyzeBtn').addEventListener('click', async function () {
+            formData.additionalDetails = document.getElementById('additionalDetails').value;
+            showStep(8);
+
+            try {
+                const gemini = new GeminiAPI(CONFIG.GEMINI_API_KEY);
+                const result = await gemini.analyzeDentalImage(formData.image, formData);
+
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('analysisResults').classList.remove('hidden');
+                document.getElementById('restartBtn').classList.remove('hidden');
+
+                document.getElementById('diagnosis').textContent = result.diagnosis;
+                document.getElementById('confidence').textContent = result.confidence;
+
+                // Set severity with color coding
+                const severityEl = document.getElementById('severity');
+                severityEl.textContent = result.severity;
+                severityEl.className = result.severity === 'High' ? 'font-semibold text-red-600' :
+                    result.severity === 'Medium' ? 'font-semibold text-yellow-600' :
+                        'font-semibold text-green-600';
+
+                // Show urgency alert if needed
+                if (result.urgency && result.urgency !== 'Routine') {
+                    const urgencyAlert = document.getElementById('urgencyAlert');
+                    const urgencyIcon = document.getElementById('urgencyIcon');
+                    const urgencyTitle = document.getElementById('urgencyTitle');
+                    const urgencyText = document.getElementById('urgencyText');
+
+                    urgencyAlert.classList.remove('hidden');
+                    if (result.urgency === 'Immediate') {
+                        urgencyAlert.className = 'p-4 rounded-xl border-l-4 border-red-500 bg-red-50';
+                        urgencyIcon.textContent = '🚨';
+                        urgencyTitle.textContent = 'Seek Immediate Care';
+                        urgencyTitle.className = 'font-semibold text-red-800';
+                        urgencyText.textContent = 'This condition may require urgent dental attention.';
+                        urgencyText.className = 'text-sm text-red-700';
+                    } else {
+                        urgencyAlert.className = 'p-4 rounded-xl border-l-4 border-orange-500 bg-orange-50';
+                        urgencyIcon.textContent = '⏰';
+                        urgencyTitle.textContent = 'Schedule Soon';
+                        urgencyTitle.className = 'font-semibold text-orange-800';
+                        urgencyText.textContent = 'Consider scheduling a dental appointment soon.';
+                        urgencyText.className = 'text-sm text-orange-700';
+                    }
+                }
+
+                // Format recommendations with icons
+                const recList = document.getElementById('recommendations');
+                recList.innerHTML = result.recommendations.map(r =>
+                    `<div class="flex items-start bg-white p-3 rounded-lg border border-green-200">
+                        <span class="text-green-600 mr-2 mt-0.5">✓</span>
+                        <span class="text-gray-700">${r}</span>
+                    </div>`
+                ).join('');
+
+                // Format treatment options with icons
+                const treatList = document.getElementById('treatmentOptions');
+                treatList.innerHTML = result.treatmentOptions.map(t =>
+                    `<div class="flex items-start bg-white p-3 rounded-lg border border-purple-200">
+                        <span class="text-purple-600 mr-2 mt-0.5">🔹</span>
+                        <span class="text-gray-700">${t}</span>
+                    </div>`
+                ).join('');
+
+            } catch (error) {
+                document.getElementById('loading').innerHTML = `
+                    <div class="text-red-600">
+                        <p class="font-semibold">Analysis Error</p>
+                        <p class="text-sm mt-2">Unable to analyze image. Please check your API key configuration.</p>
+                        <button onclick="location.reload()" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Try Again</button>
+                    </div>
+                `;
+            }
+        });
+
+        // Restart
+        document.getElementById('restartBtn').addEventListener('click', () => location.reload());
+    </script>
+</body>
+
+</html>
